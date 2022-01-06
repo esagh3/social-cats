@@ -1,0 +1,31 @@
+version: '2'
+services:
+  social-cats-database:
+    container_name: social-cats-database
+    hostname: social-cats-database
+    build:
+      context: .
+      dockerfile: db_config/Dockerfile
+    image: "postgres:latest"
+    ports:
+      - "5432:5432"
+    env_file:
+      - db_config/postgreSQL.env
+    networks:
+      - social-cats-network
+  social-cats-service:
+    container_name: social-cats-service
+    hostname: social-cats-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "social-cats:latest"
+    ports:
+      - "8080:8080"
+    networks:
+      - social-cats-network
+
+
+networks:
+  social-cats-network:
+    driver: bridge
